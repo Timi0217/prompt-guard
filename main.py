@@ -43,12 +43,17 @@ INJECTION_PATTERNS = {
     },
     "system_prompt_extraction": {
         "patterns": [
-            re.compile(r"(?i)(?:reveal|show|print|output|display|repeat)\s+(?:your\s+)?system\s+prompt"),
+            re.compile(r"(?i)(?:reveal|show|print|output|display|repeat|recite|dump|echo|write\s+out)\s+(?:your\s+)?(?:entire\s+)?(?:system\s+)?(?:prompt|instructions)"),
             re.compile(r"(?i)what\s+(?:is|are)\s+your\s+(?:system\s+)?instructions"),
-            re.compile(r"(?i)(?:show|tell)\s+me\s+your\s+(?:initial|original|first)\s+(?:prompt|instructions|message)"),
+            re.compile(r"(?i)(?:show|tell)\s+me\s+your\s+(?:initial|original|first|full|complete)\s+(?:prompt|instructions|message)"),
             re.compile(r"(?i)(?:system|initial)\s+prompt\s*[:?]"),
+            re.compile(r"(?i)repeat\s+(?:your\s+)?(?:entire\s+)?(?:system\s+)?(?:prompt|instructions)\s+(?:word\s+for\s+word|verbatim|exactly)"),
+            re.compile(r"(?i)(?:copy|paste|type\s+out|write)\s+(?:your\s+)?(?:entire\s+)?(?:system|internal)\s+(?:prompt|instructions|configuration)"),
+            re.compile(r"(?i)(?:what|how)\s+(?:were|are)\s+you\s+(?:configured|programmed|instructed|set\s+up)"),
+            re.compile(r"(?i)(?:all\s+)?(?:the\s+)?(?:environment\s+)?(?:variables?|credentials?|(?:api\s+)?keys?)\s+you\s+(?:have|know)"),
+            re.compile(r"(?i)(?:debug|print|show|dump|list)\s+(?:all\s+)?(?:your\s+)?(?:environment|env|config)"),
         ],
-        "severity": "high",
+        "severity": "critical",
         "description": "Attempts to extract the system prompt",
     },
     "role_play_jailbreak": {
@@ -68,7 +73,7 @@ INJECTION_PATTERNS = {
             re.compile(r"(?i)<\s*(?:script|style|iframe)\b"),
             re.compile(r"\[//\]:\s*#"),  # Markdown hidden comments
         ],
-        "severity": "medium",
+        "severity": "high",
         "description": "Hidden instructions in HTML/Unicode/comments",
     },
     "encoding_tricks": {
@@ -76,8 +81,10 @@ INJECTION_PATTERNS = {
             re.compile(r"(?i)(?:base64|rot13|hex|binary)\s*(?:decode|encode|convert)"),
             re.compile(r"(?i)(?:decode|translate)\s+(?:this|the\s+following)"),
             re.compile(r"[A-Za-z0-9+/]{20,}={0,2}"),  # base64-like strings
+            re.compile(r"(?i)encode\s+(?:your\s+)?(?:complete\s+)?(?:system\s+)?(?:instructions?|prompt|config)"),
+            re.compile(r"(?i)(?:send|transmit|output|write)\s+.*?\s+(?:in|as|using)\s+(?:base64|hex|rot13|binary)"),
         ],
-        "severity": "medium",
+        "severity": "high",
         "description": "Encoding-based bypass attempts",
     },
 }
